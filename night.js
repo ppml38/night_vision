@@ -29,7 +29,7 @@ function double_intensity(data,i){
 		data[i+2] = Math.min(255,blue*delta);
 }
 
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia || navigator.mediaDevices.getUserMedia;
 
 if (navigator.getUserMedia) {
   navigator.getUserMedia( {
