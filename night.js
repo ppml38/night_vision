@@ -1,7 +1,11 @@
 let video = document.getElementById("video");
-video.setAttribute('autoplay', '');
-video.setAttribute('muted', '');
-video.setAttribute('playsinline', '');
+video.setAttribute('autoplay', 'true');
+video.autoplay = true;
+video.setAttribute('muted', 'true');
+video.muted=true;
+video.setAttribute('playsinline', 'true');
+video.playsinline=true;
+
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d",{ willReadFrequently: true });
 
@@ -32,6 +36,9 @@ if (navigator.getUserMedia) {
 	  video : true
   },
   handleVideo, videoError);
+}
+else{
+	alert("No camera found.");
 }
 function showNightVision(){
 	ctx.drawImage(video,0,0);
