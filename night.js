@@ -1,4 +1,7 @@
 let video = document.getElementById("video");
+video.setAttribute('autoplay', '');
+video.setAttribute('muted', '');
+video.setAttribute('playsinline', '');
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d",{ willReadFrequently: true });
 
