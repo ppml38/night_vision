@@ -1,4 +1,4 @@
-let img = document.getElementById("image");
+let video = document.getElementById("video");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 function add_mean_gamma(data,i){
@@ -18,6 +18,40 @@ function double_intensity(data,i){
 		data[i+2] = Math.min(255,blue*delta);
 	//}
 }
+
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+
+if (navigator.getUserMedia) {
+  navigator.getUserMedia( {
+	  video : true
+  },
+  handleVideo, videoError);
+}
+function showNightVision(){
+	canvas.height = video.height;
+	canvas.width = video.width;
+	ctx.drawImage(video,0,0);
+
+	canvas_image = ctx.getImageData(0,0,canvas.width,canvas.height);
+	data = canvas_image.data;
+	for(let i=0; i<data.length; i+=4){
+		double_intensity(data,i);
+		//add_mean_gamma(data,i);
+	}
+	ctx.putImageData(canvas_image,0,0,0,0,canvas.width, canvas.height);
+	
+	requestAnimationFrame(showNightVision);
+}
+
+function handleVideo(stream) {
+	video.onplaying = showNightVision;
+	video.src = window.URL.createObjectURL(stream);
+}
+
+function videoError(e) {
+  alert("Error showing video. Please check your camera.");
+}
+
 img.onload=()=>{
 	canvas.height = img.height;
 	canvas.width = img.width;
