@@ -4,12 +4,19 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Night Vision Camera</title>
+	<style>
+	body{
+	background-color: black;
+	color: white;
+	}
+	</style>
 </head>
 <body>
 	<h1>Original video</h1>
 	<video autoplay id="video"></video>
 	<h1>Night vision enabled</h1>
-	<canvas id="canvas"></canvas>
+	<canvas id="canvas"></canvas></br>
+	Visibility: <input type="number" step="1" min="1" max="255" value="5" id="visibility">
 	<script src="night.js"></script>
 </body>
 </html>

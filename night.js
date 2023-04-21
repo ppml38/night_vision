@@ -1,22 +1,25 @@
 let video = document.getElementById("video");
 let canvas = document.getElementById("canvas");
-let ctx = canvas.getContext("2d");
+let ctx = canvas.getContext("2d",{ willReadFrequently: true });
+
+let delta = 5;
+let slider = document.getElementById("visibility");
+slider.oninput = ()=>{
+	delta = Number(slider.value);
+};
+
 function add_mean_gamma(data,i){
 	let mean = (data[i]+data[i+1]+data[i+2])/3;
 	let r_gamma = g_gamma = b_gamma = Math.log(mean);///Math.log(0.5);
-	//console.log(r_gamma);
 	data[i] = 255 * (data[i]/255)^r_gamma;
 	data[i+1] = 255 * (data[i+1]/255)^g_gamma;
 	data[i+2] = 255 * (data[i+2]/255)^b_gamma;
 }
 function double_intensity(data,i){
-	let delta = 5;
 	let [red,green,blue] = [data[i],data[i+1],data[i+2]];
-	//if(red*delta<=255&&blue*delta<=255&&blue*delta<=255){
 		data[i] = Math.min(255,red*delta);
 		data[i+1] = Math.min(255,green*delta);
 		data[i+2] = Math.min(255,blue*delta);
-	//}
 }
 
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
@@ -28,8 +31,6 @@ if (navigator.getUserMedia) {
   handleVideo, videoError);
 }
 function showNightVision(){
-	canvas.height = video.height;
-	canvas.width = video.width;
 	ctx.drawImage(video,0,0);
 
 	canvas_image = ctx.getImageData(0,0,canvas.width,canvas.height);
@@ -44,15 +45,20 @@ function showNightVision(){
 }
 
 function handleVideo(stream) {
+	video.onloadedmetadata = ()=>{
+		canvas.height = video.videoHeight;
+		canvas.width = video.videoWidth;
+	};
 	video.onplaying = showNightVision;
-	video.src = window.URL.createObjectURL(stream);
+	//video.src = window.URL.createObjectURL(stream);
+	video.srcObject = stream;
 }
 
 function videoError(e) {
   alert("Error showing video. Please check your camera.");
 }
 
-img.onload=()=>{
+/*img.onload=()=>{
 	canvas.height = img.height;
 	canvas.width = img.width;
 	ctx.drawImage(img,0,0);
@@ -65,4 +71,4 @@ img.onload=()=>{
 	}
 	ctx.putImageData(canvas_image,0,0,0,0,canvas.width, canvas.height);
 }
-img.src = "sample.jpg";
+img.src = "sample.jpg";*/
