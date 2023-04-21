@@ -33,7 +33,9 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia 
 
 if (navigator.getUserMedia) {
   navigator.getUserMedia( {
-	  video : true
+	  video : {
+				facingMode: 'environment'
+			  }
   },
   handleVideo, videoError);
 }
